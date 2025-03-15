@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_g1/bmi/screens/bmi_calculator.dart';
+import 'package:flutter_g1/bmi/screens/result.dart';
 import 'package:flutter_g1/screens/counter.dart';
 import 'package:flutter_g1/screens/flag.dart';
 import 'package:flutter_g1/screens/signin.dart';
@@ -22,9 +24,11 @@ class MainApp extends StatelessWidget {
         '/signup' : (context) => Signup(),
         '/counter' : (context) => Counter(),
         '/welcome' : (context) => WelcomeWidget(),
+        '/bmiCalculator' : (context) => BmiCalculator(),
+        // '/result' : (context) => Result(),
       },
       debugShowCheckedModeBanner: false,
-      initialRoute: '/signin',
+      initialRoute: '/bmiCalculator',
     );
   }
 }
