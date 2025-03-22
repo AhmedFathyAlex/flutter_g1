@@ -15,11 +15,12 @@ class AllProducts extends StatefulWidget {
 
 class _AllProductsState extends State<AllProducts> {
   List<ProductModel> products = [];
+  late Future productsFuture;
 
     @override
   void initState() {
     super.initState();
-    fetchProducts();
+    productsFuture  = fetchProducts();
   }
 
   @override
@@ -27,13 +28,26 @@ class _AllProductsState extends State<AllProducts> {
     return Scaffold(
       appBar: AppBar(title: Text('E-Commerce')),
       body: Center(
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-          ),
-          itemCount: products.length,
-          itemBuilder: (context, index) {
-            return ProductCard(product: products[index]);
+        child: FutureBuilder(
+          future: productsFuture,
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.done){
+              return  GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              return ProductCard(product: products[index]);
+            },
+          );
+            }
+            else if(snapshot.connectionState == ConnectionState.waiting){
+              return CircularProgressIndicator();
+            }
+            else {
+              return Text('Error');
+            }
           },
         ),
     
@@ -42,6 +56,8 @@ class _AllProductsState extends State<AllProducts> {
   }
 
   Future<void> fetchProducts() async {
+      await Future.delayed(Duration(seconds: 2));
+      
     final url = 'https://fakestoreapi.com/products';
 
     http.Response response = await http.get(Uri.parse(url));
