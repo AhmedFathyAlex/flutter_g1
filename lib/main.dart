@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_g1/bmi/screens/bmi_calculator.dart';
 import 'package:flutter_g1/bmi/screens/result.dart';
+import 'package:flutter_g1/ecommerce/presentation/screens/all_products.dart';
 import 'package:flutter_g1/screens/counter.dart';
 import 'package:flutter_g1/screens/flag.dart';
 import 'package:flutter_g1/screens/signin.dart';
@@ -25,10 +26,11 @@ class MainApp extends StatelessWidget {
         '/counter' : (context) => Counter(),
         '/welcome' : (context) => WelcomeWidget(),
         '/bmiCalculator' : (context) => BmiCalculator(),
+        '/allProducts' : (context) => AllProducts(),
         // '/result' : (context) => Result(),
       },
       debugShowCheckedModeBanner: false,
-      initialRoute: '/bmiCalculator',
+      initialRoute: '/allProducts',
     );
   }
 }

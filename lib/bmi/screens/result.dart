@@ -19,7 +19,7 @@ class Result extends StatelessWidget {
             content: Center(
               child: Text('${bmiResult.toStringAsFixed(1)}',style: AppStyles.numberTextStyle,),
             ),
-          ),)),
+          ),),),
           CustomButton(btnTitle: 'RE - Calculate',onClick: () {
             Navigator.pushReplacementNamed(context,'/bmiCalculator');
           },)
