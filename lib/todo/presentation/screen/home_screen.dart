@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_g1/todo/data/task_model.dart';
+import 'package:flutter_g1/todo/presentation/widgets/task_view.dart';
 import 'package:flutter_g1/widgets/custom_text_field.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({super.key , required this.name});
+  final String name;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -12,24 +14,38 @@ class _HomeScreenState extends State<HomeScreen> {
   final taskTitleCont = TextEditingController();
   final taskDescribtionCont = TextEditingController();
   final taskTimeCont = TextEditingController();
+  
+  List<TaskModel> tasks = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Todo'),),
+      appBar: AppBar(title: Text('Hello ${widget.name}'),),
       body: Center(
-        child: Text('Home Screen'),
+        child: ListView.builder(itemBuilder: (context,index){
+          return TaskView(task: tasks[index]);
+        },
+         itemCount: tasks.length,)
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
        showModalBottomSheet(context: context, builder: (context){
-        return Container(
+        return SizedBox(
           width: double.infinity,
           height: 300,
           child: Column(
             children: [
               CustomTextField(hint: 'task title', controller: taskTitleCont,),
               CustomTextField(hint: 'task description', controller: taskDescribtionCont,),
-              CustomTextField(hint: 'task time', controller: taskTimeCont,),
+              CustomTextField(hint: 'task date', controller: taskTimeCont,),
               ElevatedButton(onPressed: (){
+                TaskModel taskModel = TaskModel(title: taskTitleCont.text,
+                 description: taskDescribtionCont.text, 
+                 date: taskTimeCont.text);
+
+                  setState(() {
+                    tasks.add(taskModel);
+                  });
+
                 taskTitleCont.clear();
                 taskDescribtionCont.clear();
                 taskTimeCont.clear();

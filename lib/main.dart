@@ -7,19 +7,27 @@ import 'package:flutter_g1/screens/flag.dart';
 import 'package:flutter_g1/screens/signin.dart';
 import 'package:flutter_g1/screens/signup.dart';
 import 'package:flutter_g1/screens/welcome_widget.dart';
+import 'package:flutter_g1/todo/presentation/screen/enter_name.dart';
 import 'package:flutter_g1/todo/presentation/screen/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MainApp());
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? name = prefs.getString('name');
+  bool hasName = name != null && name.isNotEmpty;
+  runApp(MainApp(hasName: hasName,name: name,));
 }
 
 class MainApp extends StatelessWidget {
 
   // constructor
-  const MainApp({super.key});
-
+   MainApp({super.key ,required this.hasName , this.name});
+  bool hasName;
+  String? name;
   @override
   Widget build(BuildContext context) {
+
     return  MaterialApp(
       routes: {
         '/signin' : (context) => Signin(),
@@ -28,11 +36,12 @@ class MainApp extends StatelessWidget {
         '/welcome' : (context) => WelcomeWidget(),
         '/bmiCalculator' : (context) => BmiCalculator(),
         '/allProducts' : (context) => AllProducts(),
-        '/home' : (context) => HomeScreen()
+        '/home' : (context) => HomeScreen(name: name ?? '',),
+        '/enterName' : (context) => EnterName(),
         // '/result' : (context) => Result(),
       },
       debugShowCheckedModeBanner: false,
-      initialRoute: '/home',
+      initialRoute: hasName ? '/home' : '/enterName',
     );
   }
 }
@@ -67,6 +76,9 @@ class MainApp extends StatelessWidget {
 // form Widget
 // keys
 // SingleChildScrollView
+// shared preferences
+// sqflite "relational database"
+// hive ' no sql database
 
 
 
