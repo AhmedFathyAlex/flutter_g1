@@ -7,6 +7,7 @@ import 'package:flutter_g1/screens/flag.dart';
 import 'package:flutter_g1/screens/signin.dart';
 import 'package:flutter_g1/screens/signup.dart';
 import 'package:flutter_g1/screens/welcome_widget.dart';
+import 'package:flutter_g1/todo/presentation/screen/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -27,10 +28,11 @@ class MainApp extends StatelessWidget {
         '/welcome' : (context) => WelcomeWidget(),
         '/bmiCalculator' : (context) => BmiCalculator(),
         '/allProducts' : (context) => AllProducts(),
+        '/home' : (context) => HomeScreen()
         // '/result' : (context) => Result(),
       },
       debugShowCheckedModeBanner: false,
-      initialRoute: '/allProducts',
+      initialRoute: '/home',
     );
   }
 }
