@@ -17,7 +17,6 @@ class TaskView extends StatelessWidget {
         title: Text(task.title),
         subtitle: Text(task.description),
         leading: Text(task.date),
-        trailing: Text(task.time),
       ),
     );
   }

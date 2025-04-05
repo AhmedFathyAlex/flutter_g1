@@ -7,15 +7,19 @@ import 'package:flutter_g1/screens/flag.dart';
 import 'package:flutter_g1/screens/signin.dart';
 import 'package:flutter_g1/screens/signup.dart';
 import 'package:flutter_g1/screens/welcome_widget.dart';
+import 'package:flutter_g1/todo/data/task_database.dart';
 import 'package:flutter_g1/todo/presentation/screen/enter_name.dart';
 import 'package:flutter_g1/todo/presentation/screen/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main()async{
+  
   WidgetsFlutterBinding.ensureInitialized();
+   await TasksDatabase.initializeDatabase();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? name = prefs.getString('name');
   bool hasName = name != null && name.isNotEmpty;
+ 
   runApp(MainApp(hasName: hasName,name: name,));
 }
 

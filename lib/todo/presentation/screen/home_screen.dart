@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_g1/todo/data/task_database.dart';
 import 'package:flutter_g1/todo/data/task_model.dart';
 import 'package:flutter_g1/todo/presentation/widgets/task_view.dart';
 import 'package:flutter_g1/widgets/custom_text_field.dart';
@@ -18,14 +19,23 @@ class _HomeScreenState extends State<HomeScreen> {
   List<TaskModel> tasks = [];
 
   @override
+  void initState() {
+    super.initState();
+    TasksDatabase.getAllTasks();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Hello ${widget.name}'),),
       body: Center(
-        child: ListView.builder(itemBuilder: (context,index){
-          return TaskView(task: tasks[index]);
-        },
-         itemCount: tasks.length,)
+        child: FutureBuilder(
+          
+          child: ListView.builder(itemBuilder: (context,index){
+            return TaskView(task: tasks[index]);
+          },
+           itemCount: tasks.length,),
+        )
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
        showModalBottomSheet(context: context, builder: (context){
@@ -41,11 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 TaskModel taskModel = TaskModel(title: taskTitleCont.text,
                  description: taskDescribtionCont.text, 
                  date: taskTimeCont.text);
-
                   setState(() {
                     tasks.add(taskModel);
                   });
-
+                  TasksDatabase.insertTask(taskModel);
                 taskTitleCont.clear();
                 taskDescribtionCont.clear();
                 taskTimeCont.clear();
