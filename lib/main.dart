@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_g1/bmi/screens/bmi_calculator.dart';
-import 'package:flutter_g1/bmi/screens/result.dart';
-import 'package:flutter_g1/ecommerce/presentation/screens/all_products.dart';
-import 'package:flutter_g1/screens/counter.dart';
-import 'package:flutter_g1/screens/flag.dart';
-import 'package:flutter_g1/screens/signin.dart';
-import 'package:flutter_g1/screens/signup.dart';
-import 'package:flutter_g1/screens/welcome_widget.dart';
+import 'package:flutter_g1/ecommerce/data/cart_model.dart';
+import 'package:flutter_g1/ecommerce/presentation/screens/ecommerce_home.dart';
 import 'package:flutter_g1/todo/data/task_database.dart';
-import 'package:flutter_g1/todo/presentation/screen/enter_name.dart';
-import 'package:flutter_g1/todo/presentation/screen/home_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main()async{
@@ -20,7 +13,10 @@ void main()async{
   String? name = prefs.getString('name');
   bool hasName = name != null && name.isNotEmpty;
  
-  runApp(MainApp(hasName: hasName,name: name,));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartModel(),
+      child: MainApp(hasName: hasName,name: name,)));
 }
 
 class MainApp extends StatelessWidget {
@@ -33,19 +29,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return  MaterialApp(
-      routes: {
-        '/signin' : (context) => Signin(),
-        '/signup' : (context) => Signup(),
-        '/counter' : (context) => Counter(),
-        '/welcome' : (context) => WelcomeWidget(),
-        '/bmiCalculator' : (context) => BmiCalculator(),
-        '/allProducts' : (context) => AllProducts(),
-        '/home' : (context) => HomeScreen(name: name ?? '',),
-        '/enterName' : (context) => EnterName(),
-        // '/result' : (context) => Result(),
-      },
+      home: EcommerceHome(),
       debugShowCheckedModeBanner: false,
-      initialRoute: hasName ? '/home' : '/enterName',
     );
   }
 }

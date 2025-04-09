@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_g1/todo/data/task_model.dart';
 
 class TaskView extends StatelessWidget {
-  const TaskView({super.key,required this.task});
+  const TaskView({super.key,required this.task , this.onClick});
   final TaskModel task;
-
+  final void Function()? onClick;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,6 +17,7 @@ class TaskView extends StatelessWidget {
         title: Text(task.title),
         subtitle: Text(task.description),
         leading: Text(task.date),
+        trailing: IconButton(onPressed: onClick, icon: Icon(Icons.delete, color: Colors.red,)),
       ),
     );
   }

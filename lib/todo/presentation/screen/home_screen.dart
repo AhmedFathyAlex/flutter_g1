@@ -21,21 +21,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    TasksDatabase.getAllTasks();
+    fetchData();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Hello ${widget.name}'),),
       body: Center(
-        child: FutureBuilder(
-          
-          child: ListView.builder(itemBuilder: (context,index){
-            return TaskView(task: tasks[index]);
-          },
-           itemCount: tasks.length,),
-        )
+        child: ListView.builder(itemBuilder: (context,index){
+          return TaskView(task: tasks[index] ,
+           onClick: () {
+            TasksDatabase.deleteTask(tasks[index]); // Delete from DB
+            setState(() {
+              tasks.remove(tasks[index]);   // Delete from listView
+            });
+          },);
+        },
+         itemCount: tasks.length,)
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
        showModalBottomSheet(context: context, builder: (context){
@@ -67,5 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
       } ,
        child: Icon(Icons.add),),
     );
+  }
+
+  fetchData()async{
+  tasks =  await TasksDatabase.getAllTasks();
+  setState(() {});
   }
 }

@@ -43,4 +43,8 @@ class TasksDatabase {
       log('Tasks After : ${tasks.length}');
     return tasks;
   }
+
+  static deleteTask(TaskModel task){
+    _db.delete(tableName , where: 'id = ${task.id}');
+  }
 }
